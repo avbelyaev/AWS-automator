@@ -1,5 +1,8 @@
 import java.util
 
+/**
+ * @author avbelyaev
+ */
 object App {
 
   def main(args: Array[String]): Unit = {

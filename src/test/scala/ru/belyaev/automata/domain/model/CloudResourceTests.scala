@@ -12,7 +12,13 @@ import com.github.nscala_time.time.Imports._
 class CloudResourceTests extends FunSuite {
 
   test("should count runtime") {
+    // given
     val host = new CloudResource("host-1", DateTime.now() - 3.hour)
-    assert(3 == host.runtimeHours())
+
+    // when
+    val runtime = host.runtimeHours
+
+    // then
+    assert(3 == runtime)
   }
 }

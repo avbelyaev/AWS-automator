@@ -1,4 +1,4 @@
-package ru.belyaev.automata.domain.model
+package ru.belyaev.automata.domain.model.resource
 
 import org.joda.time.DateTime
 

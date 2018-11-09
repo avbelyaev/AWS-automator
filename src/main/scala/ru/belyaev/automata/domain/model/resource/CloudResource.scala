@@ -1,11 +1,12 @@
-package ru.belyaev.automata.domain.model
+package ru.belyaev.automata.domain.model.resource
 
 import org.joda.time.DateTime
 
 /**
   * @author avbelyaev
   */
-class CloudResource(val name: String, launchTime: DateTime) {
+class CloudResource(val name: String,
+                    launchTime: DateTime) {
 
   val runtimeHours: Long =
     (DateTime.now().getMillis - this.launchTime.getMillis) / 1000 / 60 / 60

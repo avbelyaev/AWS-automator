@@ -1,9 +1,8 @@
-package ru.belyaev.automata.domain.model
-
-import org.joda.time.DateTime
-import org.scalatest.FunSuite
+package ru.belyaev.automata.domain.model.resource
 
 import com.github.nscala_time.time.Imports._
+import org.joda.time.DateTime
+import org.scalatest.FunSuite
 
 
 /**

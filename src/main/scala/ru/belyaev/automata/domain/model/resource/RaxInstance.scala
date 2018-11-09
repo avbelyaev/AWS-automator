@@ -1,11 +1,11 @@
-package ru.belyaev.automata.domain.model
+package ru.belyaev.automata.domain.model.resource
 
 import org.joda.time.DateTime
 
 /**
   * @author avbelyaev
   */
-class RaxResource private(name: String,
+class RaxInstance private(name: String,
                           launchTime: DateTime,
                           descriptor: Descriptor)
   extends CloudResource(name: String, launchTime: DateTime) {
@@ -15,6 +15,9 @@ class RaxResource private(name: String,
   val ip: String = descriptor.ip
 
   def this(descriptor: Descriptor) {
-    this(descriptor.name, descriptor.launchTime)
+    this(descriptor.name, descriptor.launchTime, descriptor)
   }
+
+  override def toString: String =
+    s"RaxInstance ${super.toString()}, type ${this.resourceType}"
 }

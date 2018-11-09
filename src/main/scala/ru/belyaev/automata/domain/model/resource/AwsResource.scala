@@ -1,4 +1,4 @@
-package ru.belyaev.automata.domain.model
+package ru.belyaev.automata.domain.model.resource
 
 import org.joda.time.DateTime
 
@@ -24,6 +24,7 @@ class AwsResource private(name: String,
                           launchTime: DateTime,
                           descriptor: Descriptor)
   extends CloudResource(name, launchTime) {
+
   val ip: String = AwsResource.ip(descriptor)
   val resourceType: String = AwsResource.resType(descriptor)
 
@@ -31,4 +32,6 @@ class AwsResource private(name: String,
     this(AwsResource.nameOfDescr(descriptor), AwsResource.launchTimeOfDescr(descriptor), descriptor)
   }
 
+  override def toString: String =
+    s"AwsResource ${super.toString()}, type ${this.resourceType}"
 }

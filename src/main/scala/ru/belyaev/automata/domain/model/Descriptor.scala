@@ -5,6 +5,10 @@ import org.joda.time.DateTime
 /**
   * @author avbelyaev
   */
-case class Descriptor(name: String, launchTime: DateTime) {
+case class Descriptor(name: String,
+                      launchTime: DateTime,
+                      state: String,
+                      resourceType: String,
+                      ip: String) {
   // empty
 }

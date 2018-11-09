@@ -1,5 +1,6 @@
 package ru.belyaev.automata.domain.model.resource
 
+import com.amazonaws.services.ec2.model.{Instance, Volume}
 import org.joda.time.DateTime
 
 /**
@@ -28,8 +29,13 @@ class AwsResource private(name: String,
   val ip: String = AwsResource.ip(descriptor)
   val resourceType: String = AwsResource.resType(descriptor)
 
-  def this(descriptor: Descriptor) = {
-    this(AwsResource.nameOfDescr(descriptor), AwsResource.launchTimeOfDescr(descriptor), descriptor)
+  def this(descriptor: Instance) = {
+    //    val launchTime = descriptor.getLaunchTime
+    this("asd", DateTime.now(), null)
+  }
+
+  def this(descriptor: Volume) = {
+    this("asdads", DateTime.now(), null)
   }
 
   override def toString: String =

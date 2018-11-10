@@ -19,36 +19,24 @@ object AwsResource {
 }
 
 
-class AwsResource private(descriptor: Instance, // can be of type instance/volume
-                          name: String,
-                          launchTime: DateTime)
-  extends CloudResource(name, launchTime) {
+abstract class AwsResource(descriptor: Instance)
+  extends CloudResource {
 
   // TODO extract onlytags from descriptor
+  override lazy val name: String = AwsResource.nameTag(this.descriptor.getTags.asScala.toList)
+
   val state: String = "n/a"
   val resourceType: String = "n/a"
 
-  def this(descriptor: Instance, launchTime: DateTime) = {
-    //    val launchTime = descriptor.getLaunchTime
-    this(descriptor, AwsResource.nameTag(this.descriptor.getTags.asScala.toList), launchTime)
-  }
-
-  //  def this(descriptor: Volume, launchTime: DateTime) = {
-  //    this("asdads", DateTime.now(), null)
-  //  }
 }
 
 
-class AwsInstance private(descriptor: Instance,
-                          launchTime: DateTime)
-  extends AwsResource(descriptor, launchTime) {
+class AwsInstance(descriptor: Instance)
+  extends AwsResource(descriptor) {
 
+  override lazy val launchTime: DateTime = new DateTime(descriptor.getLaunchTime)
   override val state: String = descriptor.getState.getName
   override val resourceType: String = descriptor.getInstanceType
-
-  def this(descriptor: Instance) = {
-    this(descriptor, new DateTime(descriptor.getLaunchTime))
-  }
 
   override def toString: String =
     s"Instance ${super.toString}, type: ${this.resourceType}"

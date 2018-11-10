@@ -1,9 +1,9 @@
 package ru.belyaev.automata.domain.model
 
 import com.amazonaws.auth._
-import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, DescribeVolumesRequest, Filter}
+import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, Filter}
 import com.amazonaws.services.ec2.{AmazonEC2, AmazonEC2ClientBuilder}
-import ru.belyaev.automata.domain.model.resource.AwsResource
+import ru.belyaev.automata.domain.model.resource.{AwsInstance, AwsResource, CloudResource}
 
 import scala.collection.JavaConverters._
 
@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
   * @author avbelyaev
   */
 trait ApiClient {
-  def activeInstances(): List[AwsResource] = List.empty
+  def activeInstances(): List[CloudResource] = List.empty
 
   def activeVolumes(): List[AwsResource] = List.empty
 }
@@ -30,13 +30,13 @@ class AwsApiClient(accessKeyId: String,
     .build()
 
 
-  override def activeInstances(): List[AwsResource] = {
+  override def activeInstances(): List[AwsInstance] = {
     val request = new DescribeInstancesRequest()
       .withFilters(AwsApiClient.runningInstanceFilter)
     this.ec2.describeInstances(request)
       .getReservations.asScala.head
       .getInstances.asScala
-      .map(instance => new AwsResource(instance))
+      .map(instance => new AwsInstance(instance))
       .toList
   }
 
@@ -71,5 +71,5 @@ class RaxApiClient(username: String,
 
   private val client = null
 
-  override def activeInstances(): List[AwsResource] = super.activeInstances()
+  override def activeInstances(): List[CloudResource] = super.activeInstances()
 }

@@ -1,6 +1,8 @@
 package ru.belyaev.automata
 
+import ru.belyaev.automata.application.{Filter, ResourceChecker}
 import ru.belyaev.automata.domain.model.AwsApiClient
+import ru.belyaev.automata.domain.model.resource.CloudResource
 
 /**
   * @author avbelyaev
@@ -12,12 +14,17 @@ object CloudHostAutomator {
     println("starting")
 
     val region = "eu-west-3"
-    val client = new AwsApiClient(accessKey, secret, region)
+    val aws = new AwsApiClient(accessKey, secret, region)
 
-    val instances = client.activeInstances()
-    println(instances)
+    val awsFilter = new Filter(AWS_SERVER_NAME_REGEX, AWS_RUNTIME_THRESHOLD_HOURS)
+    val awsResources = ResourceChecker.missingResources(aws, awsFilter)
 
-    val volumes = client.activeVolumes()
-    println(volumes)
+    // TODO same 4 RAX
+
+    notify(awsResources)
+  }
+
+  def notify(resources: List[CloudResource]): Unit = {
+    println(s"notifying about: $resources")
   }
 }

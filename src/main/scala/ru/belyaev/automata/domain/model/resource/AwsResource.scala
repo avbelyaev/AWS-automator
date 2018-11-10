@@ -48,13 +48,13 @@ class AwsInstance(descriptor: Instance)
   extends AwsResource(Left(descriptor)) {
 
   // cloud resource
-  override val resourceType: String = descriptor.getInstanceType
-  override val launchTime: DateTime = new DateTime(descriptor.getLaunchTime)
-  override val name: String = this.nameTag.getOrElse(descriptor.getInstanceId)
-  override val ip: String = descriptor.getPublicIpAddress
+  val resourceType: String = descriptor.getInstanceType
+  val launchTime: DateTime = new DateTime(descriptor.getLaunchTime)
+  val name: String = this.nameTag.getOrElse(descriptor.getInstanceId)
+  val ip: String = descriptor.getPublicIpAddress
 
   // aws resource
-  override val state: String = descriptor.getState.getName
+  val state: String = descriptor.getState.getName
 
   override def toString: String = s"Instance ${super.toString}"
 }
@@ -64,13 +64,13 @@ class AwsVolume(descriptor: Volume)
   extends AwsResource(Right(descriptor)) {
 
   // cloud resource
-  override val resourceType: String = descriptor.getVolumeType
-  override val launchTime: DateTime = new DateTime(descriptor.getCreateTime)
-  override val name: String = this.nameTag.getOrElse(descriptor.getVolumeId)
-  override val ip: String = "n/a"
+  val resourceType: String = descriptor.getVolumeType
+  val launchTime: DateTime = new DateTime(descriptor.getCreateTime)
+  val name: String = this.nameTag.getOrElse(descriptor.getVolumeId)
+  val ip: String = "n/a"
 
   // aws resource
-  override val state: String = descriptor.getState
+  val state: String = descriptor.getState
 
   val selfTerminated: Boolean = descriptor.getAttachments.asScala.toList
     .exists(attachment => attachment.getDeleteOnTermination)

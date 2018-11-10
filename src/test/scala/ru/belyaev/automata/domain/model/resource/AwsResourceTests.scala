@@ -1,6 +1,6 @@
 package ru.belyaev.automata.domain.model.resource
 
-import com.amazonaws.services.ec2.model.Instance
+import com.amazonaws.services.ec2.model.{Instance, InstanceState, InstanceStateName, Tag}
 import org.scalatest.FunSuite
 
 /**
@@ -8,15 +8,23 @@ import org.scalatest.FunSuite
   */
 class AwsResourceTests extends FunSuite {
 
-  test("should create aws resource of descriptor") {
+  test("should create aws instance from descriptor") {
     // given
-    val instance = new Instance()
+    val nameTag = new Tag()
+      .withKey("Name")
+      .withValue("Bot-1")
+    val state = new InstanceState().withName(InstanceStateName.Running)
+
+    // and
+    val descriptor = new Instance()
+      .withTags(nameTag)
+      .withState(state)
 
     // when
-    val awsResource = new AwsResource(instance)
+    val awsInstance = new AwsInstance(descriptor)
 
     // then
-    //    assert(awsResource.name == name)
-    assert(awsResource.runtimeHours == 5)
+    assert("Bot-1".equalsIgnoreCase(awsInstance.name))
+    assert(state.getName.equalsIgnoreCase(awsInstance.state))
   }
 }

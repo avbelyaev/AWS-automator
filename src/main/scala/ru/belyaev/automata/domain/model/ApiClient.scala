@@ -1,9 +1,9 @@
 package ru.belyaev.automata.domain.model
 
 import com.amazonaws.auth._
-import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, Filter}
+import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, DescribeVolumesRequest, Filter}
 import com.amazonaws.services.ec2.{AmazonEC2, AmazonEC2ClientBuilder}
-import ru.belyaev.automata.domain.model.resource.{AwsInstance, AwsResource, CloudResource}
+import ru.belyaev.automata.domain.model.resource.{AwsInstance, AwsVolume, CloudResource}
 
 import scala.collection.JavaConverters._
 
@@ -13,7 +13,21 @@ import scala.collection.JavaConverters._
 trait ApiClient {
   def activeInstances(): List[CloudResource] = List.empty
 
-  def activeVolumes(): List[AwsResource] = List.empty
+  def activeVolumes(): List[CloudResource] = List.empty
+}
+
+
+object AwsApiClient {
+  val runningInstanceFilter: Filter =
+    awsFilter("instance-state-name", "running", "pending")
+
+  val runningVolumeFilter: Filter =
+    awsFilter("status", "creating", "available", "error", "in-use")
+
+  def awsFilter(name: String, values: String*): Filter =
+    new Filter()
+      .withName(name)
+      .withValues(values: _*)
 }
 
 
@@ -40,27 +54,14 @@ class AwsApiClient(accessKeyId: String,
       .toList
   }
 
-  override def activeVolumes(): List[AwsResource] = {
+  override def activeVolumes(): List[AwsVolume] = {
     val request = new DescribeVolumesRequest()
       .withFilters(AwsApiClient.runningVolumeFilter)
     this.ec2.describeVolumes(request)
       .getVolumes.asScala
-      .map(volume => new AwsResource(volume))
+      .map(volume => new AwsVolume(volume))
       .toList
   }
-}
-
-object AwsApiClient {
-  val runningInstanceFilter: Filter =
-    awsFilter("instance-state-name", "running", "pending")
-
-  val runningVolumeFilter: Filter =
-    awsFilter("status", "creating", "available", "error", "in-use")
-
-  def awsFilter(name: String, values: String*): Filter =
-    new Filter()
-      .withName(name)
-      .withValues(values: _*)
 }
 
 
@@ -68,8 +69,6 @@ class RaxApiClient(username: String,
                    password: String,
                    regionName: String)
   extends ApiClient {
-
-  private val client = null
 
   override def activeInstances(): List[CloudResource] = super.activeInstances()
 }

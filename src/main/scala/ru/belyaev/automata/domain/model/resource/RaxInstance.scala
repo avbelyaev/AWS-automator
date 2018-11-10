@@ -1,5 +1,7 @@
 package ru.belyaev.automata.domain.model.resource
 
+import org.joda.time.DateTime
+
 /**
   * @author avbelyaev
   */
@@ -12,4 +14,7 @@ class RaxInstance(descriptor: Descriptor)
 
   override def toString: String =
     s"RaxInstance ${super.toString()}, type ${this.resourceType}"
+
+  override val launchTime: DateTime = DateTime.now()
+  override val name: String = "rax-no-name"
 }

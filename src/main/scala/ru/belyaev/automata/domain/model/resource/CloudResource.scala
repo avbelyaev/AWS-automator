@@ -25,6 +25,9 @@ trait CloudResource {
   def runtimeHours(): Long =
     TimeUnit.MILLISECONDS.toHours(DateTime.now().getMillis - this.launchTime.getMillis)
 
+  def toTableRow: List[String] =
+    List(this.runtimeHours().toString, this.name, this.resourceType, this.ip)
+
   override def toString: String =
     s"${this.runtimeHours()}h ${this.name}, type: ${this.resourceType}, ip: ${this.ip}"
 }

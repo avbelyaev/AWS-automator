@@ -16,7 +16,6 @@ object CloudResourceTags {
   final val EXCLUDE_TAG_VALUE = conf.getString("cha.exclude-tag-value")
 }
 
-// TODO move aws/rax instance to port adatpter
 
 object CloudResource {
 

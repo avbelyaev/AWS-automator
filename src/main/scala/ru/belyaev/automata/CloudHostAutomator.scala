@@ -45,6 +45,6 @@ object CloudHostAutomator {
   }
 
   def notify(data: String): Unit = {
-    println(s"notifying about: $data")
+    println(s"notifying: $data")
   }
 }

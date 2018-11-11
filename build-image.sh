@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-tag_name=scala-autmator
+tag_name=scala-automator
 
 echo "Assembling fat jar"
 sbt assembly

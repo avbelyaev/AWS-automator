@@ -7,7 +7,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 import org.jclouds.ContextBuilder
 import org.jclouds.openstack.nova.v2_0.NovaApi
 import org.jclouds.openstack.nova.v2_0.features.ServerApi
-import ru.belyaev.automata.domain.model.resource.{AwsInstance, AwsVolume, CloudResource, RaxInstance}
+import ru.belyaev.automata.port.adapter.resource.{AwsInstance, AwsVolume, RaxInstance}
 
 import scala.collection.JavaConverters._
 

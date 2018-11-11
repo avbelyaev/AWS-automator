@@ -1,7 +1,7 @@
 package ru.belyaev.automata.application
 
-import ru.belyaev.automata.domain.model.resource.{AwsVolume, CloudResource}
-import ru.belyaev.automata.domain.model.{ApiClient, AwsApiClient}
+import ru.belyaev.automata.domain.model.{ApiClient, AwsApiClient, CloudResource}
+import ru.belyaev.automata.port.adapter.resource.AwsVolume
 
 /**
   * @author avbelyaev

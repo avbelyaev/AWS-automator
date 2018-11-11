@@ -2,8 +2,7 @@ package ru.belyaev.automata
 
 import com.typesafe.config.{Config, ConfigFactory}
 import ru.belyaev.automata.application.{Filter, PrettyPrinter, ResourceChecker}
-import ru.belyaev.automata.domain.model.resource.CloudResource
-import ru.belyaev.automata.domain.model.{AwsApiClient, RaxApiClient}
+import ru.belyaev.automata.domain.model.{AwsApiClient, CloudResource, RaxApiClient}
 
 /**
   * @author avbelyaev

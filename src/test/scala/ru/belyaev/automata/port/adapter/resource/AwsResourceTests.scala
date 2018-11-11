@@ -1,4 +1,4 @@
-package ru.belyaev.automata.domain.model.resource
+package ru.belyaev.automata.port.adapter.resource
 
 import com.amazonaws.services.ec2.model.{Instance, InstanceState, InstanceStateName, Tag}
 import org.scalatest.FunSuite

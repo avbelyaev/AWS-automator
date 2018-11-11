@@ -1,7 +1,8 @@
-package ru.belyaev.automata.domain.model.resource
+package ru.belyaev.automata.port.adapter.resource
 
 import org.jclouds.openstack.nova.v2_0.domain.Server
 import org.joda.time.DateTime
+import ru.belyaev.automata.domain.model.CloudResource
 
 import scala.collection.JavaConverters._
 

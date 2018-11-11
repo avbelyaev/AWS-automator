@@ -1,8 +1,9 @@
-package ru.belyaev.automata.domain.model.resource
+package ru.belyaev.automata.port.adapter.resource
 
 import com.amazonaws.services.ec2.model.{Instance, Tag, Volume}
 import org.joda.time.DateTime
-import ru.belyaev.automata.domain.model.resource.CloudResourceTags.{EXCLUDE_TAG_NAME, EXCLUDE_TAG_VALUE}
+import ru.belyaev.automata.domain.model.CloudResource
+import ru.belyaev.automata.domain.model.CloudResourceTags.{EXCLUDE_TAG_NAME, EXCLUDE_TAG_VALUE}
 
 import scala.collection.JavaConverters._
 

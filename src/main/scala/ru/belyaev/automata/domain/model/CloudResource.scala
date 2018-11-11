@@ -1,4 +1,4 @@
-package ru.belyaev.automata.domain.model.resource
+package ru.belyaev.automata.domain.model
 
 import java.util.concurrent.TimeUnit
 

@@ -2,6 +2,7 @@ package ru.belyaev.automata.domain.model.resource
 
 import java.util.concurrent.TimeUnit
 
+import com.typesafe.config.{Config, ConfigFactory}
 import org.joda.time.DateTime
 
 /**
@@ -9,9 +10,20 @@ import org.joda.time.DateTime
   */
 object CloudResourceTags {
 
-  final val CLOUD_HOST_AUTOMATION_TAG_NAME = "cloud-host-automation"
-  final val CHECK_EXCLUSION_TAG_VALUE = "exclude"
+  val conf: Config = ConfigFactory.load()
+
+  final val EXCLUDE_TAG_NAME = conf.getString("cha.exclude-tag-name")
+  final val EXCLUDE_TAG_VALUE = conf.getString("cha.exclude-tag-value")
 }
+
+// TODO move aws/rax instance to port adatpter
+
+object CloudResource {
+
+  val tableHeader: List[String] =
+    List("Runtime, h", "Name", "Type", "IP")
+}
+
 
 // TODO count $ spent
 trait CloudResource {

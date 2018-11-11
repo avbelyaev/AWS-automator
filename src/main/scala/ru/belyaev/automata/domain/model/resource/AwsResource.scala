@@ -2,7 +2,7 @@ package ru.belyaev.automata.domain.model.resource
 
 import com.amazonaws.services.ec2.model.{Instance, Tag, Volume}
 import org.joda.time.DateTime
-import ru.belyaev.automata.domain.model.resource.CloudResourceTags.{CHECK_EXCLUSION_TAG_VALUE, CLOUD_HOST_AUTOMATION_TAG_NAME}
+import ru.belyaev.automata.domain.model.resource.CloudResourceTags.{EXCLUDE_TAG_NAME, EXCLUDE_TAG_VALUE}
 
 import scala.collection.JavaConverters._
 
@@ -13,9 +13,9 @@ import scala.collection.JavaConverters._
 object AwsResource {
 
   def excludedFromCheck(tags: List[Tag]): Boolean =
-    extractTag(tags, CLOUD_HOST_AUTOMATION_TAG_NAME) match {
+    extractTag(tags, EXCLUDE_TAG_NAME) match {
       case None => false
-      case Some(value) => CHECK_EXCLUSION_TAG_VALUE.equalsIgnoreCase(value)
+      case Some(value) => EXCLUDE_TAG_VALUE.equalsIgnoreCase(value)
     }
 
   def nameTag(tags: List[Tag]): Option[String] =

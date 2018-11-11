@@ -3,6 +3,7 @@ package ru.belyaev.automata.domain.model
 import com.amazonaws.auth._
 import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, DescribeVolumesRequest, Filter}
 import com.amazonaws.services.ec2.{AmazonEC2, AmazonEC2ClientBuilder}
+import com.typesafe.config.{Config, ConfigFactory}
 import ru.belyaev.automata.domain.model.resource.{AwsInstance, AwsVolume, CloudResource}
 
 import scala.collection.JavaConverters._
@@ -31,16 +32,18 @@ object AwsApiClient {
 }
 
 
-class AwsApiClient(accessKeyId: String,
-                   secretAccessKey: String,
-                   regionName: String)
-  extends ApiClient {
+class AwsApiClient extends ApiClient {
 
-  private val credentials = new BasicAWSCredentials(accessKeyId, secretAccessKey)
+  private val conf: Config = ConfigFactory.load()
+  private val accessKey = conf.getString("aws.access-key")
+  private val secret = conf.getString("aws.secret")
+  private val region = conf.getString("aws.region")
+
+  private val credentials = new BasicAWSCredentials(accessKey, secret)
 
   private val ec2: AmazonEC2 = AmazonEC2ClientBuilder.standard()
     .withCredentials(new AWSStaticCredentialsProvider(credentials))
-    .withRegion(regionName)
+    .withRegion(region)
     .build()
 
 
@@ -65,10 +68,12 @@ class AwsApiClient(accessKeyId: String,
 }
 
 
-class RaxApiClient(username: String,
-                   password: String,
-                   regionName: String)
-  extends ApiClient {
+class RaxApiClient extends ApiClient {
+
+  private val conf: Config = ConfigFactory.load()
+  private val username = conf.getString("rax.username")
+  private val password = conf.getString("rax.password")
+  private val region = conf.getString("rax.region")
 
   override def activeInstances(): List[CloudResource] = super.activeInstances()
 }

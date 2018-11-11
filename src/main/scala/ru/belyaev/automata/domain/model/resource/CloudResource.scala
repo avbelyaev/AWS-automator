@@ -10,7 +10,7 @@ object CloudResourceTags {
   final val CHECK_EXCLUSION_TAG_VALUE = "exclude"
 }
 
-
+// TODO count $ spent
 trait CloudResource {
 
   val excludedFromCheck: Boolean = false

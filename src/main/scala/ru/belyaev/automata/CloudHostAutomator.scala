@@ -1,5 +1,6 @@
 package ru.belyaev.automata
 
+import com.typesafe.config.{Config, ConfigFactory}
 import ru.belyaev.automata.application.{Filter, ResourceChecker}
 import ru.belyaev.automata.domain.model.AwsApiClient
 import ru.belyaev.automata.domain.model.resource.CloudResource
@@ -9,14 +10,17 @@ import ru.belyaev.automata.domain.model.resource.CloudResource
   */
 object CloudHostAutomator {
 
-  def main(arg: Array[String]): Unit = {
+  val conf: Config = ConfigFactory.load()
 
+  def main(arg: Array[String]): Unit = {
     println("starting")
 
-    val region = "eu-west-3"
-    val aws = new AwsApiClient(accessKey, secret, region)
+    val aws = new AwsApiClient()
 
-    val awsFilter = new Filter(AWS_SERVER_NAME_REGEX, AWS_RUNTIME_THRESHOLD_HOURS)
+    val nameRegex = conf.getString("aws.name-regex")
+    val runtimeThreshold = conf.getInt("aws.runtime-threshold-h")
+    val awsFilter = new Filter(nameRegex, runtimeThreshold)
+
     val awsResources = ResourceChecker.missingResources(aws, awsFilter)
 
     // TODO same 4 RAX

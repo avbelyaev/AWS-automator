@@ -6,4 +6,7 @@ target
 .idea
 out
 .DS_Store
-
+target
+project/target
+project/project
+creds

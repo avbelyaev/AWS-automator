@@ -1,20 +1,21 @@
 package ru.belyaev.automata.domain.model.resource
 
-import com.amazonaws.services.ec2.model.Instance
+import org.jclouds.openstack.nova.v2_0.domain.Server
 import org.joda.time.DateTime
+
+import scala.collection.JavaConverters._
 
 /**
   * @author avbelyaev
   */
-class RaxInstance(descriptor: Instance)
+class RaxInstance(descriptor: Server)
   extends CloudResource {
 
-  val launchTime: DateTime = DateTime.now()
-  val resourceType: String = "t2"
-  val state: String = "down"
-  val name: String = "rax-no-name"
-  val ip: String = "8.8.8.8"
+  val launchTime: DateTime = new DateTime(descriptor.getCreated)
+  val resourceType: String = descriptor.getFlavor.getId
+  val state: String = descriptor.getStatus.value()
+  val name: String = descriptor.getName
+  val ip: String = descriptor.getAddresses.get("RC-DMZ").asScala.toList.head.getAddr
 
-  override def toString: String =
-    s"RaxInstance ${super.toString()}, type ${this.resourceType}"
+  override def toString: String = s"RaxInstance ${super.toString}"
 }

@@ -4,7 +4,10 @@ import com.amazonaws.auth._
 import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, DescribeVolumesRequest, Filter}
 import com.amazonaws.services.ec2.{AmazonEC2, AmazonEC2ClientBuilder}
 import com.typesafe.config.{Config, ConfigFactory}
-import ru.belyaev.automata.domain.model.resource.{AwsInstance, AwsVolume, CloudResource}
+import org.jclouds.ContextBuilder
+import org.jclouds.openstack.nova.v2_0.NovaApi
+import org.jclouds.openstack.nova.v2_0.features.ServerApi
+import ru.belyaev.automata.domain.model.resource.{AwsInstance, AwsVolume, CloudResource, RaxInstance}
 
 import scala.collection.JavaConverters._
 
@@ -77,5 +80,13 @@ class RaxApiClient extends ApiClient {
   private val password = conf.getString("rax.password")
   private val region = conf.getString("rax.region")
 
-  override def activeInstances(): List[CloudResource] = super.activeInstances()
+  private val serverApi: ServerApi = ContextBuilder
+    .newBuilder("rackspace-cloudservers-us")
+    .credentials(username, password)
+    .buildApi(classOf[NovaApi])
+    .getServerApi(region)
+
+  override def activeInstances(): List[CloudResource] =
+    this.serverApi.listInDetail().asScala.toList
+      .map(server => new RaxInstance(server.get(0)))
 }

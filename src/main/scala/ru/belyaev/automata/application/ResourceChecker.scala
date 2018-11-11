@@ -15,10 +15,10 @@ object ResourceChecker {
   def missingInstances(provider: ApiClient, filter: Filter): List[CloudResource] =
     provider.activeInstances()
       .filter(instance => filter.doFilter(instance))
-      .sortBy(instance => instance.runtimeHours)(Ordering[Long].reverse)
+      .sortBy(instance => instance.runtimeHours())(Ordering[Long].reverse)
 
   private def missingVolumes(provider: AwsApiClient, filter: Filter): List[AwsVolume] =
     provider.activeVolumes()
       .filter(instance => filter.doFilter(instance))
-      .sortBy(instance => instance.runtimeHours)(Ordering[Long].reverse)
+      .sortBy(instance => instance.runtimeHours())(Ordering[Long].reverse)
 }

@@ -12,6 +12,7 @@ import scala.collection.JavaConverters._
   * @author avbelyaev
   */
 trait ApiClient {
+
   def activeInstances(): List[CloudResource] = List.empty
 
   def activeVolumes(): List[CloudResource] = List.empty
@@ -19,6 +20,7 @@ trait ApiClient {
 
 
 object AwsApiClient {
+
   val runningInstanceFilter: Filter =
     awsFilter("instance-state-name", "running", "pending")
 

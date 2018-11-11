@@ -11,6 +11,7 @@ import scala.collection.JavaConverters._
   * @author avbelyaev
   */
 object AwsResource {
+
   def excludedFromCheck(tags: List[Tag]): Boolean =
     extractTag(tags, CLOUD_HOST_AUTOMATION_TAG_NAME) match {
       case None => false

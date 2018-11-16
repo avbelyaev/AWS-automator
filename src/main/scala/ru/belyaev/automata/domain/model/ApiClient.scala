@@ -56,9 +56,8 @@ class AwsApiClient extends ApiClient {
     val request = new DescribeInstancesRequest()
       .withFilters(AwsApiClient.runningInstanceFilter)
     this.ec2.describeInstances(request)
-      .getReservations.asScala.head
-      .getInstances.asScala
-      .map(instance => new AwsInstance(instance))
+      .getReservations.asScala
+      .map(reservation => new AwsInstance(reservation.getInstances.asScala.head))
       .toList
   }
 

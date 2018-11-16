@@ -40,5 +40,5 @@ trait CloudResource {
     List(this.runtimeHours().toString, this.name, this.resourceType, this.ip)
 
   override def toString: String =
-    s"${this.runtimeHours()}h ${this.name}, type: ${this.resourceType}, ip: ${this.ip}"
+    s"${this.runtimeHours()}h ${this.name}, type: ${this.resourceType}, ip: ${this.ip}\n"
 }

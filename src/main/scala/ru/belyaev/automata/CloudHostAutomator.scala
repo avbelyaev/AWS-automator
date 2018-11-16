@@ -3,7 +3,7 @@ package ru.belyaev.automata
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.{LazyLogging, Logger}
 import org.slf4j.LoggerFactory
-import ru.belyaev.automata.application.{Filter, PrettyPrinter, ResourceChecker}
+import ru.belyaev.automata.application.{Filter, Mailer, PrettyPrinter, ResourceChecker}
 import ru.belyaev.automata.domain.model.{AwsApiClient, CloudResource, RaxApiClient}
 
 /**
@@ -20,6 +20,7 @@ object CloudHostAutomator {
     logger.info("Performing runtime threshold check")
 
     val missingResources = awsResources() //.union(raxResources())
+    logger.info(s"Missing resources:\n$missingResources")
 
     val table = PrettyPrinter.generateTable(
       missingResources.map(resource => resource.toTableRow),
@@ -51,7 +52,5 @@ object CloudHostAutomator {
     ResourceChecker.missingInstances(rax, filter)
   }
 
-  def notify(data: String): Unit = {
-    println(s"notifying: $data")
-  }
+  def notify(message: String): Unit = new Mailer().sendMsg(message)
 }

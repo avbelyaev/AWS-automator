@@ -24,10 +24,11 @@ libraryDependencies += "com.sun.mail" % "javax.mail" % "1.6.2"
 libraryDependencies += "javax.mail" % "javax.mail-api" % "1.6.2"
 
 // jclouds
-libraryDependencies += "org.apache.jclouds" % "jclouds-core" % "2.1.1"
-libraryDependencies += "org.apache.jclouds.api" % "openstack-nova" % "2.1.1" //+
-libraryDependencies += "org.apache.jclouds.api" % "rackspace-cloudidentity" % "2.1.1" //+
-libraryDependencies += "org.apache.jclouds.provider" % "rackspace-cloudservers-us" % "2.1.1"
+val jcloudsVer = "2.1.1"
+libraryDependencies += "org.apache.jclouds" % "jclouds-core" % jcloudsVer
+libraryDependencies += "org.apache.jclouds.api" % "openstack-nova" % jcloudsVer
+libraryDependencies += "org.apache.jclouds.api" % "rackspace-cloudidentity" % jcloudsVer
+libraryDependencies += "org.apache.jclouds.provider" % "rackspace-cloudservers-us" % jcloudsVer
 // endregion
 
 

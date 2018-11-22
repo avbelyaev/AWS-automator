@@ -88,6 +88,7 @@ class RaxApiClient extends ApiClient {
 
   override def activeInstances(): List[CloudResource] = {
     val servers = this.serverApi.listInDetail().asScala.toList
+//    
     //      .map(server => new RaxInstance(server.get(0)))
     List.empty
   }

@@ -13,10 +13,8 @@ class Mailer {
 
   private val props = new Properties()
   props.put("mail.smtp.auth", Boolean.box(true))
-//  prop.put("mail.smtp.starttls.enable", "true")
   props.put("mail.smtp.host", conf.getString("smtp.server"))
   props.put("mail.smtp.port", "25")
-//  prop.put("mail.smtp.ssl.trust", "smtp.mailtrap.io")
 
   private val session = Session.getInstance(props, new Authenticator {
     override def getPasswordAuthentication: PasswordAuthentication = {

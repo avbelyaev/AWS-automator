@@ -9,12 +9,16 @@ object PrettyPrinter {
   // @formatter:off
     <table>
       <thead>
-        <tr>{ header.map(cell => <td>{ cell }</td>) }</tr>
+        <tr>{ header.map(cell =>
+          <td>{ cell }</td>
+        )}
+        </tr>
       </thead>
       <tbody>
         { data.map(row =>
-          <tr>
-            { row.map(cell => <td>{ cell }</td>) }
+          <tr>{ row.map(cell =>
+            <td>{ cell }</td>
+          )}
           </tr>
         )}
       </tbody>

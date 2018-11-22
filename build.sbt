@@ -30,8 +30,9 @@ libraryDependencies += "org.apache.jclouds.api" % "rackspace-cloudidentity" % "2
 libraryDependencies += "org.apache.jclouds.provider" % "rackspace-cloudservers-us" % "2.1.1"
 // endregion
 
-// tests
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 
+// region tests
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+// endregion
 
 assemblyJarName in assembly := "automator.jar"

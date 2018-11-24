@@ -1,4 +1,4 @@
-package ru.belyaev.automata.port.adapter.resource
+package ru.belyaev.automata.port.adapter
 
 import org.jclouds.openstack.nova.v2_0.domain.Server
 import org.joda.time.DateTime

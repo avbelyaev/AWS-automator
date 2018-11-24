@@ -4,7 +4,8 @@ import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 import ru.belyaev.automata.application.{Filter, Mailer, PrettyPrinter, ResourceChecker}
-import ru.belyaev.automata.domain.model.{AwsApiClient, CloudResource, RaxApiClient}
+import ru.belyaev.automata.domain.model.CloudResource
+import ru.belyaev.automata.port.adapter.{AwsApiClient, RaxApiClient}
 
 /**
   * @author avbelyaev

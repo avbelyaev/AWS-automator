@@ -8,16 +8,11 @@ import org.joda.time.DateTime
 /**
   * @author avbelyaev
   */
-object CloudResourceTags {
+object CloudResource {
 
   val conf: Config = ConfigFactory.load()
-
   final val EXCLUDE_TAG_NAME = conf.getString("cha.exclude-tag-name")
   final val EXCLUDE_TAG_VALUE = conf.getString("cha.exclude-tag-value")
-}
-
-
-object CloudResource {
 
   val tableHeader: List[String] =
     List("Runtime, h", "Name", "Type", "IP")

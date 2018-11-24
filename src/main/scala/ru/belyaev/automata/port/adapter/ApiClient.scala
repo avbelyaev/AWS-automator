@@ -1,4 +1,4 @@
-package ru.belyaev.automata.domain.model
+package ru.belyaev.automata.port.adapter
 
 import com.amazonaws.auth._
 import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, DescribeVolumesRequest, Filter}
@@ -7,21 +7,13 @@ import com.typesafe.config.{Config, ConfigFactory}
 import org.jclouds.ContextBuilder
 import org.jclouds.domain.LoginCredentials
 import org.jclouds.openstack.nova.v2_0.NovaApi
-import ru.belyaev.automata.port.adapter.resource.{AwsInstance, AwsVolume}
+import ru.belyaev.automata.domain.model.{CloudApi, CloudResource}
 
 import scala.collection.JavaConverters._
 
 /**
   * @author avbelyaev
   */
-trait ApiClient {
-
-  def activeInstances(): List[CloudResource] = List.empty
-
-  def activeVolumes(): List[CloudResource] = List.empty
-}
-
-
 object AwsApiClient {
 
   val runningInstanceFilter: Filter =
@@ -37,7 +29,7 @@ object AwsApiClient {
 }
 
 
-class AwsApiClient extends ApiClient {
+class AwsApiClient extends CloudApi {
 
   private val conf: Config = ConfigFactory.load()
   private val accessKey = conf.getString("aws.access-key")
@@ -72,7 +64,7 @@ class AwsApiClient extends ApiClient {
 }
 
 
-class RaxApiClient extends ApiClient {
+class RaxApiClient extends CloudApi {
 
   private val conf: Config = ConfigFactory.load()
   private val username = conf.getString("rax.username")

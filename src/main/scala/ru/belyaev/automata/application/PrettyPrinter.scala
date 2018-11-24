@@ -1,27 +1,35 @@
 package ru.belyaev.automata.application
 
+import ru.belyaev.automata.domain.model.CloudResource
+
+import scala.xml.XML
+
 /**
   * @author avbelyaev
   */
 object PrettyPrinter {
 
-  def generateTable(data: List[List[Any]], header: List[String]): String =
+  def generateTable(data: List[CloudResource]): String =
   // @formatter:off
     <table>
       <thead>
-        <tr>{ header.map(cell =>
-          <td>{ cell }</td>
-        )}
-        </tr>
+        { data.head.tableHeader() }
       </thead>
       <tbody>
-        { data.map(row =>
-          <tr>{ row.map(cell =>
-            <td>{ cell }</td>
-          )}
-          </tr>
-        )}
+        { data.map(row => row.tableRow()) }
       </tbody>
     </table>.toString()
-    // @formatter:on
+  // @formatter:on
+
+  def generateMessage(content: String): String =
+  // @formatter:off
+    <html>
+      <head></head>
+      <body>
+        { XML.loadString(content) }
+        <br/>
+        <p>Sincerely yours, cloud-host-automation</p>
+      </body>
+    </html>.toString()
+  // @formatter:on
 }

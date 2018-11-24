@@ -23,10 +23,7 @@ object CloudHostAutomator {
     val missingResources = raxResources()
     logger.info(s"Missing resources:\n$missingResources")
 
-    val table = PrettyPrinter.generateTable(
-      missingResources.map(resource => resource.toTableRow),
-      CloudResource.tableHeader
-    )
+    val table = PrettyPrinter.generateTable(missingResources)
 
     notify(table)
   }

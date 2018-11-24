@@ -3,8 +3,8 @@ package ru.belyaev.automata.application
 import java.util.Properties
 
 import com.typesafe.config.{Config, ConfigFactory}
-import javax.mail.{Authenticator, Message, PasswordAuthentication, Session}
 import javax.mail.internet.{InternetAddress, MimeBodyPart, MimeMessage, MimeMultipart}
+import javax.mail.{Authenticator, Message, PasswordAuthentication, Session}
 
 
 class Mailer {
@@ -28,20 +28,8 @@ class Mailer {
   private val mailToAddr = conf.getString("smtp.mail-to-addr")
 
   def sendMsg(content: String): Unit = {
-    val msgContent =
-      s"""
-        <html>
-          <head></head>
-          <body>
-            $content
-            <br>
-            Sincerely yours, cloud-host-automation
-          </body>
-         </html>
-      """.stripMargin
-
     val mimeBodyPart = new MimeBodyPart()
-    mimeBodyPart.setContent(msgContent, "text/html")
+    mimeBodyPart.setContent(content, "text/html")
 
     val multipart = new MimeMultipart()
     multipart.addBodyPart(mimeBodyPart)

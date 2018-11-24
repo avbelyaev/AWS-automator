@@ -29,25 +29,21 @@ object CloudHostAutomator {
   }
 
   def awsResources(): List[CloudResource] = {
-    val aws = new AwsApiClient()
-
     val nameRegex = conf.getString("aws.name-regex")
     val runtimeThreshold = conf.getInt("aws.runtime-threshold-h")
     val filter = new Filter(nameRegex, runtimeThreshold)
     logger.info(s"Aws config: $filter")
 
-    ResourceChecker.missingResources(aws, filter)
+    ResourceChecker.missingResources(new AwsApiClient(), filter)
   }
 
   def raxResources(): List[CloudResource] = {
-    val rax = new RaxApiClient()
-
     val nameRegex = conf.getString("rax.name-regex")
     val runtimeThreshold = conf.getInt("rax.runtime-threshold-h")
     val filter = new Filter(nameRegex, runtimeThreshold)
     logger.info(s"Rackspace config: $filter")
 
-    ResourceChecker.missingInstances(rax, filter)
+    ResourceChecker.missingResources(new RaxApiClient(), filter)
   }
 
   def notify(message: String): Unit = new Mailer().sendMsg(message)

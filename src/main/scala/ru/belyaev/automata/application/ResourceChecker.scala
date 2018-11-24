@@ -10,10 +10,10 @@ import ru.belyaev.automata.port.adapter.{AwsApiClient, AwsResource, AwsVolume}
 object ResourceChecker {
 
   def missingResources(provider: AwsApiClient, filter: Filter): List[CloudResource] =
-    this.missingInstances(provider, filter)
+    this.missingResources(provider.asInstanceOf[CloudApi], filter)
       .union(this.missingVolumes(provider, filter))
 
-  def missingInstances(provider: CloudApi, filter: Filter): List[CloudResource] =
+  def missingResources(provider: CloudApi, filter: Filter): List[CloudResource] =
     provider.activeInstances()
       .filter(instance => filter.doFilter(instance))
       .sortBy(instance => instance.runtimeHours())(Ordering[Long].reverse)

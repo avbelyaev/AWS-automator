@@ -5,7 +5,6 @@ import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, DescribeVolum
 import com.amazonaws.services.ec2.{AmazonEC2, AmazonEC2ClientBuilder}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.jclouds.ContextBuilder
-import org.jclouds.domain.LoginCredentials
 import org.jclouds.openstack.nova.v2_0.NovaApi
 import ru.belyaev.automata.domain.model.{CloudApi, CloudResource}
 
@@ -69,19 +68,18 @@ class RaxApiClient extends CloudApi {
   private val conf: Config = ConfigFactory.load()
   private val username = conf.getString("rax.username")
   private val password = conf.getString("rax.password")
+  private val apiKey = conf.getString("rax.apikey")
   private val region = conf.getString("rax.region")
 
   private val serverApi = ContextBuilder
     .newBuilder("rackspace-cloudservers-us")
-    .credentialsSupplier(() =>
-      LoginCredentials.builder().user(username).password(password).build())
+    //    .credentialsSupplier(() =>
+    //      LoginCredentials.builder().user(username).password(password).build())
+    .credentials(username, apiKey)
     .buildApi(classOf[NovaApi])
     .getServerApi(region)
 
-  override def activeInstances(): List[CloudResource] = {
-    val servers = this.serverApi.listInDetail().asScala.toList
-//    
-    //      .map(server => new RaxInstance(server.get(0)))
-    List.empty
-  }
+  override def activeInstances(): List[CloudResource] =
+    this.serverApi.listInDetail().asScala.toList
+      .map(server => new RaxInstance(server.get(0)))
 }

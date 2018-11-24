@@ -11,8 +11,8 @@ import org.joda.time.DateTime
 object CloudResource {
 
   val conf: Config = ConfigFactory.load()
-  final val EXCLUDE_TAG_NAME = conf.getString("cha.exclude-tag-name")
-  final val EXCLUDE_TAG_VALUE = conf.getString("cha.exclude-tag-value")
+  final val EXCLUDE_TAG_NAME = conf.getString("automator.exclude-tag-name")
+  final val EXCLUDE_TAG_VALUE = conf.getString("automator.exclude-tag-value")
 
   val tableHeader: List[String] =
     List("Runtime, h", "Name", "Type", "IP")

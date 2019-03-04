@@ -1,4 +1,4 @@
-package ru.belyaev.automata.application
+package ru.belyaev.automata.port.adapter
 
 import java.util.Properties
 
@@ -7,7 +7,7 @@ import javax.mail.internet.{InternetAddress, MimeBodyPart, MimeMessage, MimeMult
 import javax.mail.{Authenticator, Message, PasswordAuthentication, Session}
 
 
-class Mailer {
+class EmailService {
 
   private val conf: Config = ConfigFactory.load()
 

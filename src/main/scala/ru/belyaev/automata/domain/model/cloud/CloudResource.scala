@@ -1,11 +1,9 @@
-package ru.belyaev.automata.domain.model
+package ru.belyaev.automata.domain.model.cloud
 
 import java.util.concurrent.TimeUnit
 
 import com.typesafe.config.{Config, ConfigFactory}
 import org.joda.time.DateTime
-
-import scala.xml.Elem
 
 /**
   * @author avbelyaev
@@ -20,7 +18,8 @@ object CloudResource {
 
 
 // TODO count $ spent
-trait CloudResource extends PrettyPrintable {
+// TODO add resource maintainer
+trait CloudResource {
 
   val excludedFromCheck: Boolean = false
   val resourceType: String
@@ -30,12 +29,6 @@ trait CloudResource extends PrettyPrintable {
 
   def runtimeHours(): Long =
     TimeUnit.MILLISECONDS.toHours(DateTime.now().getMillis - this.launchTime.getMillis)
-
-  override def tableHeader(): Elem =
-    toTableRow("Runtime, h", "Name", "Type", "IP")
-
-  override def tableRow(): Elem =
-    toTableRow(this.runtimeHours().toString, this.name, this.resourceType, this.ip)
 
   override def toString: String =
     s"${this.runtimeHours()}h ${this.name}, type: ${this.resourceType}, ip: ${this.ip}\n"

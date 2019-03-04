@@ -1,30 +1,30 @@
 package ru.belyaev.automata.application
 
-import ru.belyaev.automata.domain.model.{CloudApi, CloudResource}
-import ru.belyaev.automata.port.adapter.{AwsApiClient, AwsResource, AwsVolume}
+import ru.belyaev.automata.domain.model.cloud.{CloudProvider, CloudResource}
+import ru.belyaev.automata.port.adapter.cloud.aws.{AwsProvider, AwsResource, AwsVolume}
 
 /**
   * @author avbelyaev
   */
-// this is more of port-adapter layer tbh
 object ResourceChecker {
 
-  def missingResources(provider: AwsApiClient, filter: Filter): List[CloudResource] =
-    this.missingResources(provider.asInstanceOf[CloudApi], filter)
+  def missingResources(provider: AwsProvider, filter: Filter): List[CloudResource] =
+    this.missingResources(provider.asInstanceOf[CloudProvider], filter)
       .union(this.missingVolumes(provider, filter))
 
-  def missingResources(provider: CloudApi, filter: Filter): List[CloudResource] =
+  def missingResources(provider: CloudProvider, filter: Filter): List[CloudResource] =
     provider.activeInstances()
       .filter(instance => filter.doFilter(instance))
       .sortBy(instance => instance.runtimeHours())(Ordering[Long].reverse)
 
-  private def missingVolumes(provider: AwsApiClient, filter: Filter): List[AwsVolume] =
+  private def missingVolumes(provider: AwsProvider, filter: Filter): List[AwsVolume] =
     provider.activeVolumes()
-      .filter(instance => filter.doFilter(instance))
-      .sortBy(instance => instance.runtimeHours())(Ordering[Long].reverse)
+      .filter(volume => filter.doFilter(volume))
+      .sortBy(volume => volume.runtimeHours())(Ordering[Long].reverse)
 }
 
 
+// TODO refactor this sh*t of doFilter,doFilter,doFilter,doFilter
 class Filter(nameRegex: String, runtimeHoursThreshold: Long) {
 
   def doFilter(resource: CloudResource): Boolean =

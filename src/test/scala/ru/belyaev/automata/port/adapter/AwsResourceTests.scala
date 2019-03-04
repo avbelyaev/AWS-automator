@@ -2,6 +2,7 @@ package ru.belyaev.automata.port.adapter
 
 import com.amazonaws.services.ec2.model.{Instance, InstanceState, InstanceStateName, Tag}
 import org.scalatest.FunSuite
+import ru.belyaev.automata.port.adapter.cloud.aws.AwsInstance
 
 /**
   * @author avbelyaev

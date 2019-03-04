@@ -1,6 +1,6 @@
 package ru.belyaev.automata.port.adapter
 
-import ru.belyaev.automata.domain.model.CloudResource
+import ru.belyaev.automata.domain.model.cloud.CloudResource
 
 import scala.xml.{Elem, XML}
 

@@ -1,9 +1,9 @@
-package ru.belyaev.automata.domain.model
+package ru.belyaev.automata.domain.model.cloud
 
 /**
   * @author avbelyaev
   */
-trait CloudApi {
+trait CloudProvider {
 
   def activeInstances(): List[CloudResource] = List.empty
 

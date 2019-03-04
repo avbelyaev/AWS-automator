@@ -1,15 +1,15 @@
-package ru.belyaev.automata.port.adapter
+package ru.belyaev.automata.port.adapter.cloud.rax
 
 import org.jclouds.openstack.nova.v2_0.domain.Server
 import org.joda.time.DateTime
-import ru.belyaev.automata.domain.model.CloudResource
+import ru.belyaev.automata.domain.model.cloud.CloudResource
 
 import scala.collection.JavaConverters._
 
 /**
   * @author avbelyaev
   */
-class RaxInstance(descriptor: Server)
+class RaxResource(descriptor: Server)
   extends CloudResource {
 
   val launchTime: DateTime = new DateTime(descriptor.getCreated)

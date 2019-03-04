@@ -3,9 +3,11 @@ package ru.belyaev.automata
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
-import ru.belyaev.automata.application.{Filter, Mailer, PrettyPrinter, ResourceChecker}
-import ru.belyaev.automata.domain.model.CloudResource
-import ru.belyaev.automata.port.adapter.{AwsApiClient, RaxApiClient}
+import ru.belyaev.automata.application.{Filter, ResourceChecker}
+import ru.belyaev.automata.domain.model.cloud.CloudResource
+import ru.belyaev.automata.port.adapter.cloud.aws.AwsProvider
+import ru.belyaev.automata.port.adapter.cloud.rax.RaxProvider
+import ru.belyaev.automata.port.adapter.{EmailService, PrettyPrinter}
 
 /**
   * @author avbelyaev
@@ -34,7 +36,7 @@ object CloudHostAutomator {
     val filter = new Filter(nameRegex, runtimeThreshold)
     logger.info(s"Aws config: $filter")
 
-    ResourceChecker.missingResources(new AwsApiClient(), filter)
+    ResourceChecker.missingResources(new AwsProvider(), filter)
   }
 
   def raxResources(): List[CloudResource] = {
@@ -43,8 +45,8 @@ object CloudHostAutomator {
     val filter = new Filter(nameRegex, runtimeThreshold)
     logger.info(s"Rackspace config: $filter")
 
-    ResourceChecker.missingResources(new RaxApiClient(), filter)
+    ResourceChecker.missingResources(new RaxProvider(), filter)
   }
 
-  def notify(message: String): Unit = new Mailer().sendMsg(message)
+  def notify(message: String): Unit = new EmailService().sendMsg(message)
 }

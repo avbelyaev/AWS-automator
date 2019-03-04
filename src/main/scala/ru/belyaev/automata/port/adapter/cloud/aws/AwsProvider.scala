@@ -1,19 +1,18 @@
-package ru.belyaev.automata.port.adapter
+package ru.belyaev.automata.port.adapter.cloud.aws
 
-import com.amazonaws.auth._
+import com.amazonaws.auth.{AWSStaticCredentialsProvider, BasicAWSCredentials}
 import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, DescribeVolumesRequest, Filter}
 import com.amazonaws.services.ec2.{AmazonEC2, AmazonEC2ClientBuilder}
 import com.typesafe.config.{Config, ConfigFactory}
-import org.jclouds.ContextBuilder
-import org.jclouds.openstack.nova.v2_0.NovaApi
-import ru.belyaev.automata.domain.model.{CloudApi, CloudResource}
+import ru.belyaev.automata.domain.model.cloud.CloudProvider
 
 import scala.collection.JavaConverters._
+
 
 /**
   * @author avbelyaev
   */
-object AwsApiClient {
+object AwsClient {
 
   val runningInstanceFilter: Filter =
     awsFilter("instance-state-name", "running", "pending")
@@ -27,8 +26,7 @@ object AwsApiClient {
       .withValues(values: _*)
 }
 
-
-class AwsApiClient extends CloudApi {
+class AwsProvider extends CloudProvider {
 
   private val conf: Config = ConfigFactory.load()
   private val accessKey = conf.getString("aws.access-key")
@@ -45,7 +43,7 @@ class AwsApiClient extends CloudApi {
 
   override def activeInstances(): List[AwsInstance] = {
     val request = new DescribeInstancesRequest()
-      .withFilters(AwsApiClient.runningInstanceFilter)
+      .withFilters(AwsClient.runningInstanceFilter)
     this.ec2.describeInstances(request)
       .getReservations.asScala
       .map(reservation => new AwsInstance(reservation.getInstances.asScala.head))
@@ -54,32 +52,10 @@ class AwsApiClient extends CloudApi {
 
   override def activeVolumes(): List[AwsVolume] = {
     val request = new DescribeVolumesRequest()
-      .withFilters(AwsApiClient.runningVolumeFilter)
+      .withFilters(AwsClient.runningVolumeFilter)
     this.ec2.describeVolumes(request)
       .getVolumes.asScala
       .map(volume => new AwsVolume(volume))
       .toList
   }
-}
-
-
-class RaxApiClient extends CloudApi {
-
-  private val conf: Config = ConfigFactory.load()
-  private val username = conf.getString("rax.username")
-  private val password = conf.getString("rax.password")
-  private val apiKey = conf.getString("rax.apikey")
-  private val region = conf.getString("rax.region")
-
-  private val serverApi = ContextBuilder
-    .newBuilder("rackspace-cloudservers-us")
-    //    .credentialsSupplier(() =>
-    //      LoginCredentials.builder().user(username).password(password).build())
-    .credentials(username, apiKey)
-    .buildApi(classOf[NovaApi])
-    .getServerApi(region)
-
-  override def activeInstances(): List[CloudResource] =
-    this.serverApi.listInDetail().asScala.toList
-      .map(server => new RaxInstance(server.get(0)))
 }
